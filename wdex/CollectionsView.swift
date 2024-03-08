@@ -19,12 +19,16 @@ struct CapturedItem: Identifiable, Equatable {
     let image_classification: String
     let cropped_image_url: String
     let image_url: String
+    var croppedImage: KFImage {
+        KFImage(URL(string: cropped_image_url))
+            .diskCacheExpiration(.never) // Cache the image indefinitely
+            .cacheMemoryOnly() // Store the image in memory cache only
+    }
 }
 
 class CollectionsViewModel: ObservableObject {
     @Published var capturedItems: [CapturedItem] = []
     @Published var selectedSortOrder = "Time Ascending"
-
     
     func fetchCapturedItems(userId: String) {
         let url = URL(string: Constants.baseURL + Constants.Endpoints.userImages + "?user_id=\(userId)")!
@@ -94,7 +98,8 @@ class CollectionsViewModel: ObservableObject {
 struct CollectionsView: View {
     @StateObject private var viewModel = CollectionsViewModel()
     @State private var draggedItem: CapturedItem?
-    
+    @State private var isRefreshing = false
+
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {

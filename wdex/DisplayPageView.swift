@@ -157,19 +157,19 @@ struct DisplayPageView: View {
                         )
                         .padding()
 
-                    
-                    // Add your awards section here
-                    
+                                
                     Spacer()
                     
-                    // Add your navigation bar here
+                    Image("nav_divider")
+                    
+                    BottomNavBar()
                 } else {
                     Text("No captured items available.")
                 }
             }
         }
         .navigationBarBackButtonHidden(true)
-        Image("nav_divider")
+        .background(Color.white)
     }
 }
 

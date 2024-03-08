@@ -270,10 +270,30 @@ struct BottomNavBar: View {
         HStack {
             // Add your nav bar items here
             Image("pokedex_icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+            
             Spacer()
+            
             Image("camera_icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+            
             Spacer()
+            
             Image("social_icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+            
+            Spacer()
+            
+            Image("profile_icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
         }
         .padding(.leading, 40)
         .padding(.trailing, 40)

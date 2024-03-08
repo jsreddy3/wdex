@@ -2,25 +2,29 @@
 //  ContentView.swift
 //  wdex
 //
-//  Created by Jaiden Reddy on 3/7/24.
+//  Created by Jaiden Reddy on 3/6/24.
 //
 
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            MainView()
         }
-        .padding()
+        .background(Color.white)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+struct MainView: View {
+    var body: some View {
+        VStack {
+            NavigationView {
+                CollectionsView()
+            }
+            
+            BottomNavBar()
+        }
+        .background(Color.white)
     }
 }

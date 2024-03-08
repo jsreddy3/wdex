@@ -19,10 +19,7 @@ struct ContentView: View {
 struct MainView: View {
     var body: some View {
         VStack {
-            NavigationView {
-                CollectionsView()
-            }
-            
+            CollectionsView()
             BottomNavBar()
         }
         .background(Color.white)

@@ -28,7 +28,11 @@ struct CapturedItem: Identifiable, Equatable {
 
 class CollectionsViewModel: ObservableObject {
     @Published var capturedItems: [CapturedItem] = []
-    @Published var selectedSortOrder = "Time Ascending"
+    @Published var selectedSortOrder = "Time Ascending" {
+        didSet {
+            sortCapturedItems()
+        }
+    }
     
     func fetchCapturedItems(userId: String) {
         let url = URL(string: Constants.baseURL + Constants.Endpoints.userImages + "?user_id=\(userId)")!
@@ -147,7 +151,6 @@ struct CollectionsView: View {
                         Image("quill_hamburger")
                     }
                 }
-                
                 Spacer()
             }
             .padding(.leading, 25)
@@ -185,22 +188,7 @@ struct CollectionsView: View {
         }
         .onAppear {
             viewModel.fetchCapturedItems(userId: "dog")
-        }
-    }
-    
-    func sortCapturedItems(_ item1: CapturedItem, _ item2: CapturedItem, by sortOrder: String) -> Bool {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-        
-        guard let date1 = dateFormatter.date(from: item1.date_added),
-              let date2 = dateFormatter.date(from: item2.date_added) else {
-            return false
-        }
-        
-        if sortOrder == "Time Ascending" {
-            return date1 < date2
-        } else {
-            return date1 > date2
+            viewModel.selectedSortOrder = "Time Ascending"
         }
     }
 }
@@ -317,9 +305,7 @@ class DropViewDelegate: DropDelegate {
     }
     
     func performDrop(info: DropInfo) -> Bool {
-        print("performDrop called")
         guard let draggedItem = self.draggedItem else {
-            print("Dragged item is nil")
             return false
         }
         

@@ -138,9 +138,6 @@ struct CollectionsView: View {
                         Text("Time Descending").tag("Time Descending")
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .onChange(of: viewModel.selectedSortOrder) { _ in
-                        viewModel.sortCapturedItems()
-                    }
                 } label: {
                     HStack {
                         Text("Sort By")
@@ -175,7 +172,8 @@ struct CollectionsView: View {
             Button(action: {
                 // Navigate to the display page view
             }) {
-                NavigationLink(destination: DisplayPageView(capturedItems: viewModel.capturedItems)) {
+                NavigationLink(destination: DisplayPageView(capturedItems: viewModel.capturedItems)
+                    .environmentObject(viewModel)) {
                     Image("select_order")
                         .renderingMode(.original)
                         .resizable()
@@ -188,7 +186,7 @@ struct CollectionsView: View {
         }
         .onAppear {
             viewModel.fetchCapturedItems(userId: "dog")
-            viewModel.selectedSortOrder = "Time Ascending"
+            viewModel.sortCapturedItems()
         }
     }
 }

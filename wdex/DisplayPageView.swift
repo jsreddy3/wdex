@@ -10,9 +10,11 @@ import Kingfisher
 
 struct DisplayPageView: View {
     let capturedItems: [CapturedItem]
+    @EnvironmentObject var collectionsViewModel: CollectionsViewModel
     @State private var currentIndex = 0
     @Environment(\.presentationMode) var presentationMode
-    
+    @GestureState private var dragOffset: CGSize = .zero
+
     var body: some View {
         ZStack {
             Color.white
@@ -49,6 +51,20 @@ struct DisplayPageView: View {
                                             .frame(width: 222, height: 222)
                                             .cornerRadius(12)
                                             .clipped()
+                                            .offset(x: dragOffset.width)
+                                            .gesture(
+                                                DragGesture()
+                                                    .updating($dragOffset) { value, state, _ in
+                                                        state = value.translation
+                                                    }
+                                                    .onEnded { value in
+                                                        if value.translation.width < -50 {
+                                                            currentIndex = min(currentIndex + 1, capturedItems.count - 1)
+                                                        } else if value.translation.width > 50 {
+                                                            currentIndex = max(currentIndex - 1, 0)
+                                                        }
+                                                    }
+                                            )
                                     }
                                 }
                                 Spacer()
